@@ -1,4 +1,5 @@
-import { Container} from "@chakra-ui/react";
+import { Container, Button} from "@chakra-ui/react";
+import { CiSquarePlus } from "react-icons/ci";
 const Navbar = () => {
     return(
         <>
@@ -12,7 +13,22 @@ const Navbar = () => {
                         sm:"row"
                     }}
                 >
+                    <Text
+                        bgGradient='linear(to-l, #7928CA, #FF0080)'
+                        bgClip='text'
+                        fontSize='6xl'
+                        fontWeight='extrabold'
+                    >
+                    <Link to={"/"}>Notes</Link>
+                    </Text>
 
+                    <Hstack spacing={2} alignItems={"center"}>
+                        <LInk to={"/create"}>
+                            <Button>
+                                <CiSquarePlus />
+                            </Button>
+                        </LInk>
+                    </Hstack>
                 </Flex>
             </Container>
         </>
