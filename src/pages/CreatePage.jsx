@@ -1,5 +1,7 @@
 import { Box, Button, Container, Heading, Input, useColorModeValue, VStack, Textarea } from "@chakra-ui/react";
 import { useState } from "react";
+import { useNotes } from "../note/notes";
+import { useToast } from '@chakra-ui/react';
 
 const CreatePage = () => {
     const [newNote, setNewNote] = useState({
@@ -7,8 +9,30 @@ const CreatePage = () => {
         description: ""
     });
 
-    const handleCreateNote = () => {
-        console.log(newNote);
+    const toast = useToast();
+
+    const {createNote} = useNotes()
+    const handleCreateNote = async() => {
+        const {success, message} = await createNote(newNote)
+        if(!success){
+            toast({
+                title: 'Error',
+                description: message,
+                status: 'error',
+                duration: 3000,
+                isClosable: true,
+        });
+        } else {
+            toast({
+                title: 'Note created.',
+                description: "New Note created successfully",
+                status: 'success',
+                duration: 3000,
+                isClosable: true,
+        })
+        }
+        setNewNote({title: "", description: ""})
+
         
     }
     return (
