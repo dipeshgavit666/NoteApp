@@ -7,7 +7,7 @@ export const useNotes = create((set) => ({
         if(!newNote.title || !newNote.description){
             return {success:false, message:"Please fill in all fields."}
         }
-        const res = await fetch("/api/v1", {
+        const res = await fetch("/api/v1/notes", {
             method: "POST",
             headers:{
                 "Content-Type": "application/json"
