@@ -29,5 +29,20 @@ export const useNotes = create((set) => ({
             console.error("Error fetching notes:", error);
             set({notes: []});
         }
+    },
+
+    deleteNote: async(nid) => {
+        try {
+            const res = await fetch("api/v1/notes/${nid}", {
+                method: "DELETE",
+            });
+            const data = await res.json();
+            set((state) => ({
+                notes: state.notes.filter((note) => note._id !== nid)
+            }));
+            return {success: true, message: data.message}
+        } catch (error) {
+             console.error("Error deleting notes:", error);
+        }
     }
 }));

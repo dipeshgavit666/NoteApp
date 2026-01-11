@@ -1,9 +1,34 @@
-import { Box, Heading, Text, HStack, IconButton, useColorModeValue } from "@chakra-ui/react";
+import { Box, Heading, Text, HStack, IconButton, useColorModeValue, useToast } from "@chakra-ui/react";
 import { EditIcon, DeleteIcon } from "@chakra-ui/icons";
+import { useNotes } from "../note/notes";
 
 const NoteCard = ({ note }) => {
     const bgColor = useColorModeValue("white", "gray.800");
     const borderColor = useColorModeValue("gray.200", "gray.700");
+
+    const toast = useToast()
+    const deleteNote = useNotes();
+    const handelDeleteNote = async (nid) => {
+        const {success, message} = await deleteNote.deleteNote(nid);
+        if(!success){
+            toast({
+                title: "Can't delete Note",
+                description: message,
+                status: "error",
+                duration: 3000,
+                isClosable: true
+            })
+        }
+        else{
+            toast({
+                title: "Note Deleted",
+                description: message,
+                status: "success",
+                duration: 3000,
+                isClosable: true
+            })
+        }
+    }
 
     return (
         <Box 
@@ -34,12 +59,13 @@ const NoteCard = ({ note }) => {
                 <HStack spacing={2} justify="flex-end">
                     <IconButton 
                         icon={<EditIcon />} 
-                        colorScheme="blue"
+                        colorScheme="green"
                         size="sm"
                         aria-label="Edit note"
                     />
                     <IconButton 
                         icon={<DeleteIcon />} 
+                        onClick={() => handelDeleteNote(note._id)}
                         colorScheme="red"
                         size="sm"
                         aria-label="Delete note"
