@@ -17,5 +17,17 @@ export const useNotes = create((set) => ({
         const data = await res.json();
         set((state) => ({notes:[...state.notes, data.data]}));
         return {success: true, message: "Note created successfully."}
+    },
+
+    fetchNotes: async() => {
+        try {
+            const res = await fetch("/api/v1/notes");
+            const data = await res.json();
+
+            set({notes: Array.isArray(data.data.notes) ? data.data.notes : []});
+        } catch (error) {
+            console.error("Error fetching notes:", error);
+            set({notes: []});
+        }
     }
 }));
